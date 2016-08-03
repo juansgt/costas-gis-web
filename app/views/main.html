@@ -1,0 +1,14 @@
+
+<div class="row marketing">
+  <div id="divFiltroMain">
+    <label for="selectProvincias"> Provincias: </label>
+    <select name="selectProvincias" id="selectProvincias">
+      <option ng-repeat="option in data.availableOptions" value="{{option.id}}">{{option.name}}</option>
+    </select>
+  </div>
+  <ui-gmap-google-map center='mainController.map.center' zoom='mainController.map.zoom'></ui-gmap-google-map>
+  <button ng-click="mainController.findProvincias">Buy</button>
+  <div ng-repeat="(provinciaKey, provincia) in mainController.provincias">
+    <span>{{provincia.Nombre}}</span>
+  </div>
+</div>
