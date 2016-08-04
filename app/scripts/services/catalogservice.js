@@ -13,6 +13,6 @@ angular.module('costasGiswebApp')
         return $http.get('http://costasgis.shopinshock.com/catalogs/provincias');
     }
     this.getMunicipiosByProvincias = function(idProvincia){
-        return $http.get('http://costasgis.shopinshock.com/municipios/provincia/' + idProvincia);
+        return $http.get('http://costasgis.shopinshock.com/catalogs/municipios/provincia/' + idProvincia);
     }
   }]);

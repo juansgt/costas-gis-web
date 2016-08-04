@@ -2,12 +2,16 @@
 <div class="row marketing">
   <div id="divFiltroMain">
     <label for="selectProvincias"> Provincias: </label>
-    <select name="selectProvincias" id="selectProvincias" ng-click="mainController.findMunicipios()">
+    <select name="selectProvincias" id="selectProvincias" ng-click="mainController.findMunicipios()" ng-model="mainController.idProvinciaSelected">
       <option ng-repeat="provincia in mainController.provincias" value="{{provincia.IdProvincia}}">{{provincia.Nombre}}</option>
     </select>
+    <label for="selectMunicipios"> Municipios: </label>
+    <select name="selectMunicipios" id="selectMunicipios" ng-click="mainController.findOcupaciones()" ng-model="mainController.idMunicipioSelected">
+      <option ng-repeat="municipio in mainController.municipios" value="{{municipio.IdMunicipio}}">{{municipio.Nombre}}</option>
+    </select>
   </div>
-  <ui-gmap-google-map center='mainController.map.center' zoom='mainController.map.zoom'></ui-gmap-google-map>
-  <div ng-repeat="(provinciaKey, provincia) in mainController.provincias">
-    <span>{{provincia.Nombre}}</span>
-  </div>
+  <ui-gmap-google-map center='mainController.map.center' zoom='mainController.map.zoom'>
+    <ui-gmap-marker ng-repeat="marker in mainController.markers" coords="marker.coords" op idkey="marker.id" options="marker.options">
+    </ui-gmap-marker>
+  </ui-gmap-google-map>
 </div>
