@@ -18,6 +18,7 @@ angular.module('costasGiswebApp')
       vm.municipios = null;
       vm.ocupaciones = null;
       vm.markers = [];
+      vm.mapOcupaciones = new Object();
 
       catalogService.getProvincias().then(function (response) {
         vm.provincias = response.data;
@@ -55,7 +56,9 @@ angular.module('costasGiswebApp')
         // console.log(JSON.stringify(response.data));
         vm.icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
         vm.markers = [];
+        vm.mapOcupaciones = new Object();
         vm.ocupaciones.forEach(function(element, index, array){
+          vm.mapOcupaciones[element.IdOcupacion] = element;
           if (ocupationService.getOcupationState(element) == ocupationService.EstadoOcupacion.CADUCADA_DENEGADA)
             {
                  vm.icon = 'http://maps.google.com/mapfiles/ms/icons/pink-dot.png';
@@ -80,17 +83,21 @@ angular.module('costasGiswebApp')
             {
                 vm.icon = 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png';
             }
-          vm.markers.push(
-          { id: element.IdOcupacion,
-            coords: {
-              latitude: element.Latitud,
-              longitude: element.Longitud
-            },
-            options: {
-              icon: vm.icon
-            },
-          });
+            vm.markers.push(
+            { id: element.IdOcupacion,
+              coords: {
+                latitude: element.Latitud,
+                longitude: element.Longitud
+              },
+              options: {
+                icon: vm.icon,
+                title:element.Descripcion
+              }
+            });
         });
+      }
+      this.findThisOcupacionById = function(idOcupacion){
+          return vm.mapOcupaciones[idOcupacion];
       }
       uiGmapGoogleMapApi.then(function(maps) {
       });
