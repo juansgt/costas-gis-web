@@ -12,6 +12,9 @@ angular.module('costasGiswebApp')
     this.getOcupacionesByMunicipio = function(idMunicipio){
         return $http.get('http://costasgis.shopinshock.com/ocupations/municipio/' + idMunicipio);
     }
+    this.getOcupacionesByProvincia = function(idProvincia){
+        return $http.get('http://costasgis.shopinshock.com/ocupations/provincia/' + idProvincia);
+    }
     this.EstadoOcupacion = {
         SIN_INICIAR: "Sin Iniciar",
         EN_TRAMITE: "En trámite",
