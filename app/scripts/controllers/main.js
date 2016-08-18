@@ -15,6 +15,7 @@ angular.module('costasGiswebApp')
       vm.provincias = null;
       vm.provinciaSelected = null;
       vm.municipioSelected = null;
+      vm.ocupacionSelected = null;
       vm.municipios = null;
       vm.ocupaciones = null;
       vm.markers = [];
@@ -26,7 +27,7 @@ angular.module('costasGiswebApp')
       vm.findMunicipios = function()
       {
         if (vm.provinciaSelected.IdProvincia > 0){
-            catalogService.getMunicipiosByProvincias(vm.provinciaSelected.IdProvincia).then(function (response) {
+          catalogService.getMunicipiosByProvincias(vm.provinciaSelected.IdProvincia).then(function(response) {
             vm.municipios = response.data;
             vm.municipios.push({
               IdMunicipio:-1,
@@ -35,24 +36,24 @@ angular.module('costasGiswebApp')
           });
         }
       }
-      vm.findOcupaciones = function()
+      vm.findOcupacionesMarker = function()
       {
         if (vm.municipioSelected.IdMunicipio > 0){
-          ocupationService.getOcupacionesByMunicipio(vm.municipioSelected.IdMunicipio).then(function (response) {
+          ocupationService.getOcupacionesDescDetailsByMunicipio(vm.municipioSelected.IdMunicipio).then(function (response) {
               vm.ocupaciones = response.data;
               vm.map = { center: { latitude: vm.ocupaciones[0].Latitud, longitude: vm.ocupaciones[0].Longitud }, zoom: 13 };
-              vm.generateOcupaciones();
+              vm.generateOcupacionesMarker();
           });
         }
         else {
-            ocupationService.getOcupacionesByProvincia(vm.provinciaSelected.IdProvincia).then(function (response) {
+            ocupationService.getOcupacionesDescDetailsByProvincia(vm.provinciaSelected.IdProvincia).then(function (response) {
               vm.ocupaciones = response.data;
               vm.map = vm.mapDefault;
-              vm.generateOcupaciones();
+              vm.generateOcupacionesMarker();
             });
         }
       }
-      vm.generateOcupaciones = function(){
+      vm.generateOcupacionesMarker = function(){
         // console.log(JSON.stringify(response.data));
         vm.icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
         vm.markers = [];
@@ -96,7 +97,12 @@ angular.module('costasGiswebApp')
             });
         });
       }
-      this.findThisOcupacionById = function(idOcupacion){
+      vm.findOcupacionById = function(idOcupacion){
+        ocupationService.getOcupacionById(idOcupacion).then(function(response) {
+          vm.ocupacionSelected = response.data;
+        });
+      }
+      vm.findOcupacionMarkerById = function(idOcupacion){
           return vm.mapOcupaciones[idOcupacion];
       }
       uiGmapGoogleMapApi.then(function(maps) {

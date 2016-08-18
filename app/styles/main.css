@@ -58,7 +58,13 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
-
+.classTextBox {
+	margin-top:15px;
+	width:252px;
+	height:28px;
+	background-color: #d9d9d9;
+	border-style: none;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
