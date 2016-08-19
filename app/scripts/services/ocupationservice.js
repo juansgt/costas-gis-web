@@ -24,7 +24,25 @@ angular.module('costasGiswebApp')
     this.getOcupacionesDescDetailsByProvincia = function(idProvincia){
         return $http.get('http://costasgis.shopinshock.com/ocupations/descriptiondetails/provincia/' + idProvincia);
     }
-    this.
+    this.updateOcupacion = function(ocupacion){
+        this.OcupacionDescriptionDetails = {
+          IdOcupacion: ocupacion.IdOcupacion,
+          Latitud: ocupacion.Latitud,
+          Longitud: ocupacion.Longitud,
+          Titulo: ocupacion.Titulo,
+          Descripcion: ocupacion.Descripcion
+        }
+        var aux = JSON.stringify(this.OcupacionDescriptionDetails);
+        return $http.put('http://costasgis.shopinshock.com/ocupations/descriptiondetails/' + this.OcupacionDescriptionDetails.IdOcupacion,
+            JSON.stringify(this.OcupacionDescriptionDetails));
+    }
+    // this.OcupacionDescriptionDetails = function(idOcupacion, latitud, longitud, titulo, descripcion){
+    //   this.IdOcupacion = idOcupacion
+    //   this.Latitud = latitud
+    //   this.Longitud = longitud
+    //   this.Titulo = titulo;
+    //   this.Descripcion = descripcion;
+    // }
     this.EstadoOcupacion = {
         SIN_INICIAR: "Sin Iniciar",
         EN_TRAMITE: "En trámite",
@@ -33,7 +51,6 @@ angular.module('costasGiswebApp')
         OTORGADA: "En vigor",
         INDETERMINADO: "Indeterminado"
     }
-    this.Ocupacion = function(Descripcio)
     this.getOcupationState = function(ocupacion){
       if (!ocupacion.Situacion && !ocupacion.Titulo)
       {

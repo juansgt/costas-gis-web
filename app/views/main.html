@@ -24,8 +24,8 @@
   <div ng-if="mainController.ocupacionSelected">
     <div>
         <label for="inputDescripcion">Descripcion:</label>
-        <input type="text" id="inputDescripcion" class="classTextBox" value="{{mainController.ocupacionSelected.Descripcion}}"/>
-        <a ng-click="">Guardar</a>
+        <input type="text" id="inputDescripcion" class="classTextBox" ng-model="mainController.ocupacionSelected.Descripcion" value="{{mainController.ocupacionSelected.Descripcion}}"/>
+        <a ng-click="mainController.updateOcupacion()">Guardar</a>
     </div>
   </div>
 </div>

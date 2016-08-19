@@ -92,9 +92,15 @@ angular.module('costasGiswebApp')
               },
               options: {
                 icon: vm.icon,
+                draggable: true,
                 title:element.Descripcion
               }
             });
+        });
+      }
+      vm.updateOcupacion = function(){
+        ocupationService.updateOcupacion(vm.ocupacionSelected).then(function (response) {
+           vm.findOcupacionMarkerById(vm.ocupacionSelected.IdOcupacion).Descripcion = vm.ocupacionSelected.Descripcion;
         });
       }
       vm.findOcupacionById = function(idOcupacion){
