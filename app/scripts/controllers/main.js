@@ -16,9 +16,10 @@ angular.module('costasGiswebApp')
       vm.provinciaSelected = null;
       vm.municipioSelected = null;
       vm.ocupacionSelected = null;
+      vm.markerSelected = null;
       vm.municipios = null;
       vm.ocupaciones = null;
-      vm.markers = [];
+      vm.markers = new Object();
       vm.mapOcupaciones = new Object();
 
       catalogService.getProvincias().then(function (response) {
@@ -56,7 +57,7 @@ angular.module('costasGiswebApp')
       vm.generateOcupacionesMarker = function(){
         // console.log(JSON.stringify(response.data));
         vm.icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
-        vm.markers = [];
+        vm.markers = new Object();
         vm.mapOcupaciones = new Object();
         vm.ocupaciones.forEach(function(element, index, array){
           vm.mapOcupaciones[element.IdOcupacion] = element;
@@ -84,21 +85,24 @@ angular.module('costasGiswebApp')
             {
                 vm.icon = 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png';
             }
-            vm.markers.push(
-            { id: element.IdOcupacion,
-              coords: {
-                latitude: element.Latitud,
-                longitude: element.Longitud
-              },
-              options: {
-                icon: vm.icon,
-                draggable: true,
-                title:element.Descripcion
-              }
-            });
+            vm.markers[element.IdOcupacion] =
+                    { id: element.IdOcupacion,
+                      coords: {
+                        latitude: element.Latitud,
+                        longitude: element.Longitud
+                      },
+                      options: {
+                        icon: vm.icon,
+                        draggable: true,
+                        title:element.Descripcion
+                      }
+                    };
         });
       }
       vm.updateOcupacion = function(){
+        vm.markerSelected = vm.markers[vm.ocupacionSelected.IdOcupacion];
+        vm.ocupacionSelected.Latitud = vm.markerSelected.coords.latitude;
+        vm.ocupacionSelected.Longitud = vm.markerSelected.coords.longitude;
         ocupationService.updateOcupacion(vm.ocupacionSelected).then(function (response) {
            vm.findOcupacionMarkerById(vm.ocupacionSelected.IdOcupacion).Descripcion = vm.ocupacionSelected.Descripcion;
         });
