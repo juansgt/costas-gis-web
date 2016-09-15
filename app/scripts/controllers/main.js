@@ -16,15 +16,18 @@ angular.module('costasGiswebApp')
       vm.provinciaSelected = null;
       vm.municipioSelected = null;
       vm.ocupacionSelected = null;
+      vm.estadoOcupacionSelected = "";
       vm.markerSelected = null;
       vm.municipios = null;
       vm.ocupaciones = null;
       vm.markers = new Object();
       vm.mapOcupaciones = new Object();
+      vm.estadosOcupacion = null;
 
       catalogService.getProvincias().then(function (response) {
         vm.provincias = response.data;
       });
+      vm.estadosOcupacion = ocupationService.findEstadosOcupacion();
       vm.findMunicipios = function()
       {
         if (vm.provinciaSelected.IdProvincia > 0){
@@ -39,7 +42,15 @@ angular.module('costasGiswebApp')
       }
       vm.findOcupacionesMarker = function()
       {
-        if (vm.municipioSelected.IdMunicipio > 0){
+        if (vm.estadoOcupacionSelected != "" && vm.municipioSelected.IdMunicipio > 0)
+        {
+          ocupationService.getOcupacionesDescDetailsByMunicipioEstado(vm.municipioSelected.IdMunicipio, vm.estadoOcupacionSelected).then(function (response) {
+              vm.ocupaciones = response.data;
+              vm.map = { center: { latitude: vm.ocupaciones[0].Latitud, longitude: vm.ocupaciones[0].Longitud }, zoom: 13 };
+              vm.generateOcupacionesMarker();
+          });
+        }
+        else if (vm.municipioSelected.IdMunicipio > 0){
           ocupationService.getOcupacionesDescDetailsByMunicipio(vm.municipioSelected.IdMunicipio).then(function (response) {
               vm.ocupaciones = response.data;
               vm.map = { center: { latitude: vm.ocupaciones[0].Latitud, longitude: vm.ocupaciones[0].Longitud }, zoom: 13 };
@@ -103,6 +114,7 @@ angular.module('costasGiswebApp')
         vm.markerSelected = vm.markers[vm.ocupacionSelected.IdOcupacion];
         vm.ocupacionSelected.Latitud = vm.markerSelected.coords.latitude;
         vm.ocupacionSelected.Longitud = vm.markerSelected.coords.longitude;
+          
         ocupationService.updateOcupacion(vm.ocupacionSelected).then(function (response) {
            vm.findOcupacionMarkerById(vm.ocupacionSelected.IdOcupacion).Descripcion = vm.ocupacionSelected.Descripcion;
         });

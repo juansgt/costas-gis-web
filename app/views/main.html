@@ -13,19 +13,68 @@
       <option  value="">Seleccionar municipio</option>
       <!-- <option ng-repeat="municipio in mainController.municipios" value="{{municipio.IdMunicipio}}">{{municipio.Nombre}}</option> -->
     </select>
+    <label for="selectEstado">Estado:</label>
+    <select name="selectEstado" id="selectEstado" ng-click="mainController.findOcupacionesMarker()" ng-model="mainController.estadoOcupacionSelected"
+      ng-options='estadoOcupacion for estadoOcupacion in mainController.estadosOcupacion'>
+      <option  value="">Seleccionar estado</option>
+    </select>
   </div>
   <ui-gmap-google-map center='mainController.map.center' zoom='mainController.map.zoom'>
     <ui-gmap-marker ng-repeat="(idOcupacion, marker) in mainController.markers" click="mainController.findOcupacionById(marker.id)" coords="marker.coords" idkey="marker.id" options="marker.options">
-      <ui-gmap-window options="windowOptions">
+      <ui-gmap-window options="windowOptions" closeClick='mainController.ocupacionSelected = null'>
                 <div>{{mainController.findOcupacionMarkerById(idOcupacion).Descripcion}}</div>
       </ui-gmap-window>
     </ui-gmap-marker>
   </ui-gmap-google-map>
   <div ng-if="mainController.ocupacionSelected">
     <div>
-        <label for="inputDescripcion">Descripcion:</label>
+        <label class="classLabelForm" for="inputDescripcion">Descripcion:</label>
         <input type="text" id="inputDescripcion" class="classTextBox" ng-model="mainController.ocupacionSelected.Descripcion" value="{{mainController.ocupacionSelected.Descripcion}}"/>
-        <a ng-click="mainController.updateOcupacion()">Guardar</a>
     </div>
+    <div>
+        <label class="classLabelForm" for="inputDuna">Duna:</label>
+        <input type="text" id="inputDuna" class="classTextBox" ng-model="mainController.ocupacionSelected.DUNA" value="{{mainController.ocupacionSelected.DUNA}}"/>
+    </div>
+    <div>
+        <label class="classLabelForm" for="inputSP">SP:</label>
+        <input type="text" id="inputSP" class="classTextBox" ng-model="mainController.ocupacionSelected.SP" value="{{mainController.ocupacionSelected.SP}}"/>
+    </div>
+    <div>
+        <label class="classLabelForm" for="inputHuso">Huso:</label>
+        <input type="text" id="inputHuso" class="classTextBox" ng-model="mainController.ocupacionSelected.Huso" value="{{mainController.ocupacionSelected.Huso}}"/>
+    </div>
+    <div>
+        <label class="classLabelForm" for="inputDatum">Datum:</label>
+        <input type="text" id="inputDatum" class="classTextBox" ng-model="mainController.ocupacionSelected.Datum" value="{{mainController.ocupacionSelected.Datum}}"/>
+    </div>
+    <div>
+        <label class="classLabelForm" for="inputUso">Uso:</label>
+        <input type="text" id="inputUso" class="classTextBox" ng-model="mainController.ocupacionSelected.Uso" value="{{mainController.ocupacionSelected.Uso}}"/>
+    </div>
+    <div>
+        <label class="classLabelForm" for="inputTipo">Tipo:</label>
+        <input type="text" id="inputTipo" class="classTextBox" ng-model="mainController.ocupacionSelected.Tipo" value="{{mainController.ocupacionSelected.Tipo}}"/>
+    </div>
+    <div>
+        <label class="classLabelForm" for="inputTitulo">Titulo:</label>
+        <input type="text" id="inputTitulo" class="classTextBox" ng-model="mainController.ocupacionSelected.Titulo" value="{{mainController.ocupacionSelected.Titulo}}"/>
+    </div>
+    <div>
+        <label class="classLabelForm" for="inputSituacion">Situacion:</label>
+        <input type="text" id="inputSituacion" class="classTextBox" ng-model="mainController.ocupacionSelected.Situacion" value="{{mainController.ocupacionSelected.Situacion}}"/>
+    </div>
+    <!-- <div>
+        <label for="inputFechaOtorgamiento">FechaOtorgamiento:</label>
+        <input type="text" id="inputFechaOtorgamiento" class="classTextBox" ng-model="mainController.ocupacionSelected.FechaOtorgamiento" value="{{mainController.ocupacionSelected.FechaOtorgamiento}}"/>
+    </div>
+    <div>
+        <label for="inputFechaExtincion">inputFechaExtincion:</label>
+        <input type="text" id="inputFechaExtincion" class="classTextBox" ng-model="mainController.ocupacionSelected.FechaExtincion" value="{{mainController.ocupacionSelected.FechaExtincion}}"/>
+    </div>
+    <div>
+        <label for="inputFechaDenegacion">FechaDenegacion:</label>
+        <input type="text" id="inputFechaDenegacion" class="classTextBox" ng-model="mainController.ocupacionSelected.FechaDenegacion" value="{{mainController.ocupacionSelected.FechaDenegacion}}"/>
+    </div> -->
+    <a ng-click="mainController.updateOcupacion()">Guardar</a>
   </div>
 </div>

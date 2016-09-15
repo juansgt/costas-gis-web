@@ -60,10 +60,14 @@ body {
 }
 .classTextBox {
 	margin-top:15px;
-	width:252px;
+	width:352px;
 	height:28px;
 	background-color: #d9d9d9;
 	border-style: none;
+}
+.classLabelForm{
+  width: 100px;
+  margin-right:20px;
 }
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {

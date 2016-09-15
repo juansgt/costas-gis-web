@@ -21,6 +21,9 @@ angular.module('costasGiswebApp')
     this.getOcupacionesDescDetailsByMunicipio = function(idMunicipio){
         return $http.get('http://costasgis.shopinshock.com/ocupations/descriptiondetails/municipio/' + idMunicipio);
     }
+    this.getOcupacionesDescDetailsByMunicipioEstado = function(idMunicipio, estado){
+        return $http.get('http://localhost:33569/ocupations/descriptiondetails/municipio/' + idMunicipio + '/estado/' + estado);
+    }
     this.getOcupacionesDescDetailsByProvincia = function(idProvincia){
         return $http.get('http://costasgis.shopinshock.com/ocupations/descriptiondetails/provincia/' + idProvincia);
     }
@@ -30,10 +33,17 @@ angular.module('costasGiswebApp')
           Latitud: ocupacion.Latitud,
           Longitud: ocupacion.Longitud,
           Titulo: ocupacion.Titulo,
-          Descripcion: ocupacion.Descripcion
+          Descripcion: ocupacion.Descripcion,
+          DUNA: ocupacion.DUNA,
+          SP: ocupacion.SP,
+          Huso: ocupacion.Huso,
+          Datum: ocupacion.Datum,
+          Uso: ocupacion.Uso,
+          Tipo: ocupacion.Tipo,
+          Situacion: ocupacion.Situacion
         }
         var aux = JSON.stringify(this.OcupacionDescriptionDetails);
-        return $http.put('http://costasgis.shopinshock.com/ocupations/descriptiondetails/' + this.OcupacionDescriptionDetails.IdOcupacion,
+        return $http.put('http://localhost:33569/ocupationsLatLong/' + this.OcupacionDescriptionDetails.IdOcupacion,
             JSON.stringify(this.OcupacionDescriptionDetails));
     }
     // this.OcupacionDescriptionDetails = function(idOcupacion, latitud, longitud, titulo, descripcion){
@@ -46,10 +56,14 @@ angular.module('costasGiswebApp')
     this.EstadoOcupacion = {
         SIN_INICIAR: "Sin Iniciar",
         EN_TRAMITE: "En trámite",
-        SIN_DATOS: "",
+        SIN_DATOS: "Sin datos",
         CADUCADA_DENEGADA: "Extinguido",
         OTORGADA: "En vigor",
         INDETERMINADO: "Indeterminado"
+    }
+    this.findEstadosOcupacion = function(){
+      return [this.EstadoOcupacion.SIN_INICIAR, this.EstadoOcupacion.EN_TRAMITE, this.EstadoOcupacion.SIN_DATOS,
+          this.EstadoOcupacion.CADUCADA_DENEGADA, this.EstadoOcupacion.OTORGADA, this.EstadoOcupacion.INDETERMINADO];
     }
     this.getOcupationState = function(ocupacion){
       if (!ocupacion.Situacion && !ocupacion.Titulo)
